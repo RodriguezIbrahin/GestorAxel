@@ -70,7 +70,6 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 const { Score } = sequelize.models;
 
-
 // Aca vendrian las relaciones
 
 module.exports = {
