@@ -1,10 +1,10 @@
 const { Router } = require('express');
 
-const scoreRouter = require('./score');
+const ClientRouter = require('./Client');
 
 const router = Router();
 
-router.use('/score', scoreRouter);
+router.use('/client', ClientRouter);
 
 
 module.exports = router;
