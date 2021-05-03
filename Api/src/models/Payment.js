@@ -4,7 +4,7 @@ module.exports = (sequelize) =>{
     const Payment = sequelize.define('payment', {
 
         Date:{
-            type: DataTypes.DATE,
+            type: DataTypes.STRING,
             allowNull: false
         },
         Amount:{

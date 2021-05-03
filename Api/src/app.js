@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const routes = require('./routes/Index.js');
+const AuthToken = require("./middlewares/AuthToken");
 
 const app = express();
 
@@ -12,6 +13,8 @@ app.name = 'API';
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true}));
+
+app.use(AuthToken);
 
 app.use('/', routes);
 

@@ -1,35 +1,8 @@
 const app = require('express').Router();
-const { Client, Invoice } = require('../db.js');
+const { Client, Invoice, Payment, Product} = require('../db.js');
 const bcrypt = require('bcrypt');
 const JWT = require('jsonwebtoken');
 const { AUTH_SECRET } = process.env;
-
-
-
-//SingUp
-
-app.post('/singup', (req, res) => {
-    
-    bcrypt.hash( req.body.DNI , 10 , function( err ,  hash )  { 
-
-        if(err){ res.status(404).send(err) }
-
-        else (async function (){
-
-            try {
-
-                const NewClient = await Client.create({ ...req.body, Password: hash});
-
-                res.status(200).send(NewClient);
-    
-            }
-            catch (err){ res.status(404).send(err) }
-
-        })()
-
-    });
-
-});
 
 
 //SingIn
@@ -50,7 +23,7 @@ app.post('/singin', (req, res) => {
     
                     JWT.sign({IsAdmin: ClientSingIn.IsAdmin, DNI: ClientSingIn.DNI }, AUTH_SECRET, function( error, token ){
     
-                        if(error) { res.status(500).send( { error } );}
+                        if(error) { res.status(500).send({message: "Hubo un Error"})}
     
                         else{ res.status(200).send( { IsAdmin: ClientSingIn.IsAdmi, token , DNI: ClientSingIn.DNI} );}
     
@@ -60,7 +33,7 @@ app.post('/singin', (req, res) => {
             });
 
         }
-        catch (err){ res.status(404).send(err) }
+        catch (err){ res.status(404).send({message: "Hubo un Error"}) }
 
     })()
 
@@ -69,24 +42,22 @@ app.post('/singin', (req, res) => {
 
 //Get all Invoices for client singin
 
-app.get('/', (req, res) => {
+app.get('/invoices', (req, res) => {
 
-	let token = req.headers.authorization.split(' ')[1];
+	JWT.verify( req.headers.authorization.split(' ')[1], AUTH_SECRET, function ( error, decoded ){
 
-	JWT.verify( token, AUTH_SECRET, function ( error, decoded ){
-
-		error ? res.status(404).send( { message: error} ) :
+		error ? res.status(404).send({message: "Hubo un Error"}) :
 
         (async function (){
 
             try {
     
-                const ClientInvoices = await Invoice.findAll({ where: { clientDNI: decoded.DNI } });
+                const ClientInvoices = await Invoice.findAll({ where: { clientDNI: decoded.DNI },  include: [Payment, Product] });
 
                 res.status(201).send(ClientInvoices);
     
             }
-            catch (err){ res.status(404).send(err) }
+            catch (err){ res.status(404).send({message: "Hubo un Error"}) }
 
         })()
 
