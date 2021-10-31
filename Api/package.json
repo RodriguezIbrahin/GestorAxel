@@ -13,16 +13,19 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
+    "core-util-is": "^1.0.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "file-system": "^2.2.2",
     "i": "^0.3.6",
     "jsonwebtoken": "^8.5.1",
+    "loader": "^2.1.1",
     "nodemon": "^2.0.7",
     "path": "^0.12.7",
     "pg": "^8.3.3",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "webpack": "^5.61.0"
   }
 }

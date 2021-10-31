@@ -1,10 +1,16 @@
-
+import React from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import SignIn from "./components/SignIn";
+import Copyright from "./components/Copyright";
 
 function App() {
   return (
-    <div >
-      hola mundo
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/signin" component={SignIn} />
+      </Switch>
+      <Route path="/" component={Copyright} />
+    </BrowserRouter>
   );
 }
 

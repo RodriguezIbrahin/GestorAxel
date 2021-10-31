@@ -1,35 +1,35 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const routes = require('./routes/Index.js');
+const routes = require("./routes/index.js");
 const AuthToken = require("./middlewares/AuthToken");
 
 const app = express();
 
 app.use(cors());
 
-app.name = 'API';
+app.name = "API";
 
 app.use(bodyParser.json());
 
-app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(AuthToken);
 
-app.use('/', routes);
+app.use("/", routes);
 
 // Error catching endware.
 
-app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+app.use((err, req, res, next) => {
+  // eslint-disable-line no-unused-vars
 
-    const status = err.status || 500;
+  const status = err.status || 500;
 
-    const message = err.message || err;
+  const message = err.message || err;
 
-    console.error(err);
-    
-    res.status(status).send(message);
+  console.error(err);
 
+  res.status(status).send(message);
 });
-  
+
 module.exports = app;
